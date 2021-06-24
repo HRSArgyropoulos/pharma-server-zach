@@ -1,0 +1,29 @@
+{
+  "name": "pharma-server-zach",
+  "version": "1.0.0",
+  "description": "Node JS Server Side application for Pharma React App",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js",
+    "start-dev": "nodemon -r dotenv/config app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HRSArgyropoulos/pharma-server-zach.git"
+  },
+  "keywords": [
+    "NodeJS",
+    "Pharma"
+  ],
+  "author": "HRSArgyropoulos",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/HRSArgyropoulos/pharma-server-zach/issues"
+  },
+  "homepage": "https://github.com/HRSArgyropoulos/pharma-server-zach#readme",
+  "devDependencies": {
+    "dotenv": "^10.0.0",
+    "nodemon": "^2.0.7"
+  }
+}
