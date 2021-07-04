@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const axios = require('axios');
 
-router.get('/', async (req, res) => {
+router.get('/getTerms', async (req, res) => {
   // get param keys from request
   const { page, size } = req.query;
   // fetch data
@@ -10,8 +10,8 @@ router.get('/', async (req, res) => {
       `${process.env.PHARMA_DATA_URL}/terms`,
       {
         params: {
-          page: page,
-          size: size,
+          page,
+          size,
         },
       }
     );
