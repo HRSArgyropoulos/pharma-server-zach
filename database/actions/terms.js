@@ -14,4 +14,9 @@ const insertTerms = async (terms) => {
   }
 };
 
-module.exports = { insertTerms };
+// Get count of all documents in DB
+const countTerms = async () => {
+  return TermsSchema.estimatedDocumentCount();
+};
+
+module.exports = { insertTerms, countTerms };

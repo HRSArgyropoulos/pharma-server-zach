@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 mongoose.connection.close();
 // Setup mongoose connection
-mongoose.connect(process.env.DB_URI, {
+mongoose.connect(process.env.PHARMA_DB_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   useCreateIndex: true,
