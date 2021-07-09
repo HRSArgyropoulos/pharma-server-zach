@@ -1,4 +1,7 @@
 const mongoose = require('mongoose');
+const {
+  createTerms,
+} = require('./actions/createTerms');
 
 mongoose.connection.close();
 // Setup mongoose connection
@@ -12,9 +15,10 @@ mongoose.connect(process.env.PHARMA_DB_URI, {
 //Get the connection
 const db = mongoose.connection;
 
-db.once('open', () =>
-  console.log('Database has been connected')
-);
+db.once('open', () => {
+  console.log('Database has been connected');
+  createTerms();
+});
 
 //Bind connection to error event (to get notification of connection errors)
 db.on('error', () => {
@@ -33,3 +37,5 @@ db.on('disconnected', () =>
 db.on('reconnected', () =>
   console.log('Reconnected to the database')
 );
+
+module.exports = db;
