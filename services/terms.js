@@ -1,16 +1,8 @@
 const axios = require('axios');
 
 // fetch terms from api
-const initTerms = async ({ page = 1, size = 10 }) => {
-  return axios.get(
-    `${process.env.PHARMA_DATA_URL}/terms`,
-    {
-      params: {
-        page,
-        size,
-      },
-    }
-  );
+const initTerms = async () => {
+  return axios.get(process.env.API_URI);
 };
 
 module.exports = { initTerms };
