@@ -2,17 +2,12 @@ const TermsSchema = require('../models/terms');
 
 // Insert All Terms into DB
 const insertTerms = async (terms) => {
-  let count = 0;
-  try {
-    for (const term of terms) {
-      await TermsSchema.create(term);
-      count++;
-    }
-    return { error: false, count };
-  } catch (error) {
-    console.error(error);
-    return { error, count };
-  }
+  TermsSchema.insertMany(terms, (err, docs) => {
+    if (err) return console.error(err);
+    return console.log(
+      `${docs.length} terms successfully saved in DB`
+    );
+  });
 };
 
 // Get count of all documents in DB
