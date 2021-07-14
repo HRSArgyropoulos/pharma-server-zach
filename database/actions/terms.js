@@ -10,12 +10,21 @@ const insertTerms = async (terms) => {
   });
 };
 
-// Get count of all documents in DB
+// Get (approximate) count of all documents in DB
 const countTerms = async () => {
   return TermsSchema.estimatedDocumentCount();
+};
+
+// Return some terms from db for pagination requests
+const paginatedTerms = async (page, size) => {
+  return await TermsSchema.find({})
+    .skip(page * size)
+    .limit(size)
+    .exec();
 };
 
 module.exports = {
   insertTerms,
   countTerms,
+  paginatedTerms,
 };
