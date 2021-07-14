@@ -1,7 +1,4 @@
 const mongoose = require('mongoose');
-const {
-  createTerms,
-} = require('./actions/createTerms');
 
 mongoose.connection.close();
 // Setup mongoose connection
@@ -17,7 +14,6 @@ const db = mongoose.connection;
 
 db.once('open', () => {
   console.log('Database has been connected');
-  createTerms();
 });
 
 //Bind connection to error event (to get notification of connection errors)
