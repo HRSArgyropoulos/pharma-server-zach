@@ -30,14 +30,7 @@ const createDbTerms = () => {
       }));
 
       // insert all mapped terms into the DB
-      insertTerms(termsData).then(
-        ({ error, count }) => {
-          if (error) return console.log(error);
-          console.log(
-            `${count} terms successfully saved in DB`
-          );
-        }
-      );
+      insertTerms(termsData);
     });
   });
 };
