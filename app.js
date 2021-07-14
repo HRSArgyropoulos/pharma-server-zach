@@ -1,4 +1,7 @@
 const express = require('express');
+const {
+  createDbTerms,
+} = require('./database/actions/createDbTerms');
 
 // create express application
 const app = express();
@@ -9,6 +12,9 @@ app.use(cors());
 
 // database connection
 require('./database/connection');
+
+// populate db with terms (if empty)
+createDbTerms();
 
 // mount routes on root path
 const routes = require('./routes');

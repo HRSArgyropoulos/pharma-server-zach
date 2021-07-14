@@ -4,7 +4,7 @@ const {
   countTerms,
 } = require('../../database/actions/terms');
 
-const createTerms = () => {
+const createDbTerms = () => {
   countTerms().then((count) => {
     // if terms exist in db return message
     if (count)
@@ -42,4 +42,4 @@ const createTerms = () => {
   });
 };
 
-module.exports = { createTerms };
+module.exports = { createDbTerms };
