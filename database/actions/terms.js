@@ -19,7 +19,7 @@ const countTerms = async () => {
 // (hide _id and __v)
 const paginatedTerms = async (page, size) => {
   return await TermsSchema.find({}, { _id: 0, __v: 0 })
-    .skip(page * size)
+    .skip((page - 1) * size)
     .limit(size)
     .exec();
 };
