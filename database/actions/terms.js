@@ -16,15 +16,22 @@ const countTerms = async () => {
 };
 
 // Return some terms from db for pagination requests
+// (hide _id and __v)
 const paginatedTerms = async (page, size) => {
-  return await TermsSchema.find({})
+  return await TermsSchema.find({}, { _id: 0, __v: 0 })
     .skip(page * size)
     .limit(size)
     .exec();
+};
+
+// Count all documents (exact)
+const exactCountTerms = async () => {
+  return await TermsSchema.countDocuments();
 };
 
 module.exports = {
   insertTerms,
   countTerms,
   paginatedTerms,
+  exactCountTerms,
 };
