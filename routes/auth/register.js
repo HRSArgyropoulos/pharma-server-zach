@@ -6,7 +6,7 @@ const {
 const {
   emailExists,
   saveUser,
-} = require('../../database/actions/register');
+} = require('../../database/actions/user');
 
 // to get req.body
 router.use(express.json());
