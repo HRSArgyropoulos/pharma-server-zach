@@ -6,6 +6,7 @@ const {
 const {
   emailExists,
 } = require('../../database/actions/user');
+const { createToken } = require('../../services/auth');
 
 // to get req.body
 router.use(express.json());
@@ -33,6 +34,12 @@ router.post('/', async (req, res) => {
   // Check if password does not match this user's email
   if (!(await userDoc.checkPassword(password)))
     return res.status(400).send('Invalid Password.');
+
+  // Sign In Successfull
+  // create token for this user
+  const token = await createToken(userDoc);
+  // send token back and in response headers
+  res.header('auth-token', token).send(token);
 });
 
 module.exports = router;
