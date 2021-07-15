@@ -17,6 +17,13 @@ UserSchema.methods.setPassword = async function (
   this.password = await bcrypt.hash(pass, salt);
 };
 
+// Get 'unhashed' password and check it with this instance's password
+UserSchema.methods.checkPassword = async function (
+  pass
+) {
+  return await bcrypt.compare(pass, this.password);
+};
+
 // Export Models
 // User Model
 const User = mongoose.model('user', UserSchema);

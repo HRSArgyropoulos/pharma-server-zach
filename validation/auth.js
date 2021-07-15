@@ -24,4 +24,20 @@ const registrationValidation = async (body) => {
   return registerSchema.validateAsync(body);
 };
 
-module.exports = { registrationValidation };
+const loginValidation = async (body) => {
+  const loginSchema = Joi.object({
+    email: Joi.string()
+      .min(5)
+      .required()
+      .email()
+      .trim(),
+    password: Joi.string().required(),
+  });
+
+  return loginSchema.validateAsync(body);
+};
+
+module.exports = {
+  registrationValidation,
+  loginValidation,
+};
