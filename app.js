@@ -6,6 +6,9 @@ const {
 // create express application
 const app = express();
 
+// to get request body in POST requests
+app.use(express.json());
+
 // CORS for cross origin requests
 const cors = require('cors');
 app.use(cors());
