@@ -9,13 +9,26 @@ const UserSchema = new mongoose.Schema({
   password: String,
 });
 
-// Hash and Set password of instance
-UserSchema.methods.setPassword = async function (
-  pass
-) {
-  const salt = await bcrypt.genSalt(10);
-  this.password = await bcrypt.hash(pass, salt);
-};
+// Hashing password pre-save
+// (p.s. do not use arrow function in cb as it wont correctly bind this)
+UserSchema.pre('save', function (next) {
+  const user = this;
+  console.log(user);
+
+  // generate salt
+  bcrypt.genSalt(10, (err, salt) => {
+    if (err) return next(err);
+
+    // hash the password using salt
+    bcrypt.hash(user.password, salt, (err, hash) => {
+      if (err) return next(err);
+
+      // overwrite password with hashed password
+      user.password = hash;
+      next();
+    });
+  });
+});
 
 // Get 'unhashed' password and check it with this instance's password
 UserSchema.methods.checkPassword = async function (

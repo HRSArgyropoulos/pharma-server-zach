@@ -8,9 +8,6 @@ const {
 } = require('../../database/actions/user');
 const { createToken } = require('../../services/auth');
 
-// to get req.body
-router.use(express.json());
-
 router.post('/', async (req, res) => {
   // Validate Body
   try {

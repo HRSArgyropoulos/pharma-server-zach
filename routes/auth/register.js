@@ -8,9 +8,6 @@ const {
   saveUser,
 } = require('../../database/actions/user');
 
-// to get req.body
-router.use(express.json());
-
 // Register user
 router.post('/', async (req, res) => {
   // Validate Body
@@ -38,7 +35,7 @@ router.post('/', async (req, res) => {
     email,
     password,
   })
-    .then((doc) =>
+    .then(() =>
       res.status(200).json({
         message:
           'Registration successful, please check your email for verification instructions',

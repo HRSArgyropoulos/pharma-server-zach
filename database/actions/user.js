@@ -7,10 +7,8 @@ const emailExists = async (email) => {
 
 // create user
 const saveUser = async (body) => {
-  // create user instance
+  // create user instance (and hash password pre-save)
   const user = await new User(body);
-  // hash and set password for this user
-  await user.setPassword(body.password);
   // save user in DB
   return await user.save();
 };
