@@ -7,10 +7,9 @@ const {
   emailExists,
   saveUser,
 } = require('../../database/actions/user');
-const { sendMail } = require('../../services/mailer');
 const {
-  emailVerificationConfig,
-} = require('../../helpers/emailConfig');
+  sendVerificationEmail,
+} = require('../../services/mailer');
 
 // Register user
 router.post('/', async (req, res) => {
@@ -41,11 +40,9 @@ router.post('/', async (req, res) => {
   })
     .then(async (doc) => {
       // send verification email
-      await sendMail(
-        doc.email,
-        emailVerificationConfig.from,
-        emailVerificationConfig.subject,
-        emailVerificationConfig.html
+      await sendVerificationEmail(
+        doc,
+        req.get('origin')
       );
       return res.status(200).json({
         message:
