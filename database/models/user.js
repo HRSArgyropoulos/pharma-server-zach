@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
+const crypto = require('crypto');
 
 // User Schema
 const UserSchema = new mongoose.Schema({
@@ -7,6 +8,7 @@ const UserSchema = new mongoose.Schema({
   lastName: String,
   email: String,
   password: String,
+  verificationToken: String,
 });
 
 // Hashing password pre-save
@@ -15,6 +17,7 @@ UserSchema.pre('save', function (next) {
   const user = this;
   console.log(user);
 
+  //Hash the password
   // generate salt
   bcrypt.genSalt(10, (err, salt) => {
     if (err) return next(err);
@@ -28,6 +31,11 @@ UserSchema.pre('save', function (next) {
       next();
     });
   });
+
+  // Generate email verification token
+  user.verificationToken = crypto
+    .randomBytes(8)
+    .toString('hex');
 });
 
 // Get 'unhashed' password and check it with this instance's password

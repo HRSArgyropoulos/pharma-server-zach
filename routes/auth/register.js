@@ -7,6 +7,9 @@ const {
   emailExists,
   saveUser,
 } = require('../../database/actions/user');
+const {
+  sendVerificationEmail,
+} = require('../../services/mailer');
 
 // Register user
 router.post('/', async (req, res) => {
@@ -35,12 +38,17 @@ router.post('/', async (req, res) => {
     email,
     password,
   })
-    .then(() =>
-      res.status(200).json({
+    .then(async (doc) => {
+      // send verification email
+      await sendVerificationEmail(
+        doc,
+        req.get('origin')
+      );
+      return res.status(200).json({
         message:
           'Registration successful, please check your email for verification instructions',
-      })
-    )
+      });
+    })
     .catch((err) =>
       res.status(400).json({
         err,
