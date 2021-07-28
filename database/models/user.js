@@ -9,6 +9,7 @@ const UserSchema = new mongoose.Schema({
   email: String,
   password: String,
   verificationToken: String,
+  verified: { type: Boolean, default: false },
 });
 
 // Hashing password pre-save
