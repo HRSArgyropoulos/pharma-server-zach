@@ -21,8 +21,28 @@ const saveUser = async (body) => {
   return await user.save();
 };
 
+// set user's password reset token
+const setPasswordResetToken = async (user) => {
+  // generate token
+  const token =
+    await user.generatePasswordResetToken();
+  // update user password token in DB
+  const query = { email: user.email };
+  return User.findOneAndUpdate(
+    query,
+    {
+      resetPasswordToken: token,
+    },
+    {
+      /* return the new form of doc (after the update has been applied) */
+      new: true,
+    }
+  );
+};
+
 module.exports = {
   emailExists,
   verifyEmailToken,
   saveUser,
+  setPasswordResetToken,
 };
