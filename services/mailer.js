@@ -29,7 +29,7 @@ const sendVerificationEmail = async (user, origin) => {
 
   // create rest of the keys for send email
   const emailOptions = {
-    from: 'verifypharmazach@gmail.com',
+    from: '💊 Pharma App <verifypharmazach@gmail.com>',
     to: user.email,
     subject: 'Pharma New Account - Email Verification',
     html: msg,
@@ -39,4 +39,35 @@ const sendVerificationEmail = async (user, origin) => {
   await sendEmail(emailOptions);
 };
 
-module.exports = { sendVerificationEmail };
+// Send Reset Password Token E-mail
+const sendResetPasswordEmail = async (
+  email,
+  token,
+  origin
+) => {
+  let msg = `<p>Hello. You have requested to reset your password for this e-mail address.</p>`;
+  if (origin) {
+    const url = `${origin}/auth/reset-password?token=${token}`;
+    msg += `<p>Please click on the following link to change your password.</p>
+    <p><a href="${url}">${url}</a></p>`;
+  } else {
+    msg += `<p>Please use the below token to change your password.</p>
+    <p><code>${token}</code></p>`;
+  }
+  msg +=
+    '<p>If you did not request this email, please ignore it.</p><p>Thank you.</p>';
+
+  const emailOptions = {
+    from: '💊 Pharma App <infopharmazach@gmail.com>',
+    to: email,
+    subject: 'Pharma - Reset Password',
+    html: msg,
+  };
+
+  await sendEmail(emailOptions);
+};
+
+module.exports = {
+  sendVerificationEmail,
+  sendResetPasswordEmail,
+};
