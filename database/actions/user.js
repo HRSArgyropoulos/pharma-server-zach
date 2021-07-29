@@ -24,8 +24,7 @@ const saveUser = async (body) => {
 // set user's password reset token
 const setPasswordResetToken = async (user) => {
   // generate token
-  const token =
-    await user.generatePasswordResetToken();
+  const token = await user.generatePasswordResetToken();
   // update user password token in DB
   const query = { email: user.email };
   return User.findOneAndUpdate(
@@ -40,9 +39,35 @@ const setPasswordResetToken = async (user) => {
   );
 };
 
+// check reset password token exists
+const checkPasswordResetToken = async (token) => {
+  const query = { resetPasswordToken: token };
+  // find the user with that token and reset to default
+  // his password reset token
+  return User.findOneAndUpdate(
+    query,
+    {
+      resetPasswordToken: '',
+    },
+    {
+      new: true, //return new updated form of doc
+    }
+  );
+};
+
+// update users password
+const setNewPassword = async (email, newPassword) => {
+  const query = { email };
+  return User.findOneAndUpdate(query, {
+    password: newPassword,
+  });
+};
+
 module.exports = {
   emailExists,
   verifyEmailToken,
   saveUser,
   setPasswordResetToken,
+  checkPasswordResetToken,
+  setNewPassword,
 };
