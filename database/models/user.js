@@ -10,6 +10,7 @@ const UserSchema = new mongoose.Schema({
   password: String,
   verificationToken: String,
   verified: { type: Boolean, default: false },
+  resetPasswordToken: { type: String, default: '' },
 });
 
 // Hashing password pre-save
@@ -45,6 +46,12 @@ UserSchema.methods.checkPassword = async function (
 ) {
   return await bcrypt.compare(pass, this.password);
 };
+
+// Generate token for password reset
+UserSchema.methods.generatePasswordResetToken =
+  function () {
+    return crypto.randomBytes(16).toString('hex');
+  };
 
 // Export Models
 // User Model
