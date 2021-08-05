@@ -1,7 +1,5 @@
 const express = require('express');
-const {
-  createDbTerms,
-} = require('./database/actions/createDbTerms');
+const { createDbTerms } = require('./database/actions/createDbTerms');
 
 // create express application
 const app = express();
@@ -22,6 +20,17 @@ createDbTerms();
 // mount routes on root path
 const routes = require('./routes');
 app.use('/', routes);
+
+// error handling
+app.use((err, req, res, next) => {
+  res.error = err;
+  next(err);
+});
+
+// send error response
+app.use((err, req, res, next) => {
+  res.status(err.statusCode).json({ message: err.errorMessage });
+});
 
 // listen for connections on this host & port
 app.listen(process.env.PORT, process.env.HOST, () => {
