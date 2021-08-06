@@ -1,4 +1,5 @@
 const Joi = require('joi');
+const schemaValidate = require('./schemaValidate');
 
 // Minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character
 // by Srinivas & Wiktor Stribiżew
@@ -20,13 +21,15 @@ const registrationValidation = async (body) => {
   return registerSchema.validateAsync(body);
 };
 
-const loginValidation = async (body) => {
+const loginValidation = async (req, res, next) => {
+  // login validation schema
   const loginSchema = Joi.object({
     email: Joi.string().min(5).required().email().trim(),
     password: Joi.string().required(),
   });
 
-  return loginSchema.validateAsync(body);
+  // validate req body
+  schemaValidate(req, next, loginSchema);
 };
 
 const resetPasswordValidation = async (body) => {

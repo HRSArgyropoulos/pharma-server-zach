@@ -5,13 +5,7 @@ const { loginUser } = require('../../database/actions/user');
 const { createToken } = require('../../services/auth');
 
 const login = async (req, res, next) => {
-  // validate Body
-  try {
-    // returns the registration body after validation and convertion
-    var { email, password } = await loginValidation(req.body);
-  } catch (err) {
-    return res.status(400).json({ message: err.details[0].message });
-  }
+  const { email, password } = req.body;
 
   // login the user in
   loginUser(email, password)
@@ -26,6 +20,6 @@ const login = async (req, res, next) => {
     .catch((err) => next(err));
 };
 
-router.post('/', login);
+router.post('/', loginValidation, login);
 
 module.exports = router;
