@@ -1,5 +1,7 @@
 const express = require('express');
 const { createDbTerms } = require('./database/actions/createDbTerms');
+const morgan = require('morgan');
+const loggerStream = require('./error/errorLogger'); // Morgan tokens / error logger
 
 // create express application
 const app = express();
@@ -17,6 +19,19 @@ require('./database/connection');
 // populate db with terms (if empty)
 createDbTerms();
 
+// error logging - Morgan
+app.use(
+  morgan(
+    ':date - :method - :url - status: :status - error_message: :errorMessage - :res[content-length] - :response-time ms',
+    {
+      stream: loggerStream,
+      skip: (req, res) => {
+        return res.statusCode < 400;
+      },
+    }
+  )
+);
+
 // mount routes on root path
 const routes = require('./routes');
 app.use('/', routes);
@@ -27,9 +42,10 @@ app.use((err, req, res, next) => {
   next(err);
 });
 
-// send error response
+// error handling sender
 app.use((err, req, res, next) => {
   res.status(err.statusCode).json({ message: err.errorMessage });
+  next();
 });
 
 // listen for connections on this host & port
