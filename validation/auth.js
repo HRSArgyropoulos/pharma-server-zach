@@ -1,4 +1,3 @@
-const { required } = require('joi');
 const Joi = require('joi');
 
 // Minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character

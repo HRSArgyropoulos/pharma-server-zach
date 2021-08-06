@@ -63,6 +63,33 @@ const setNewPassword = async (email, newPassword) => {
   });
 };
 
+// login the user
+const loginUser = async (email, password) => {
+  // check if email exists in DB and get document
+  const userDoc = await emailExists(email);
+  if (!userDoc)
+    throw {
+      statusCode: 401,
+      errorMessage: 'Email or password is incorrect',
+    };
+
+  // check if password does not match this user's email
+  if (!(await userDoc.checkPassword(password)))
+    throw {
+      statusCode: 401,
+      errorMessage: 'Email or password is incorrect',
+    };
+
+  // check if user is verified
+  if (!userDoc.verified)
+    throw {
+      statusCode: 400,
+      errorMessage: 'User is not verified yet',
+    };
+
+  return userDoc;
+};
+
 module.exports = {
   emailExists,
   verifyEmailToken,
@@ -70,4 +97,5 @@ module.exports = {
   setPasswordResetToken,
   checkPasswordResetToken,
   setNewPassword,
+  loginUser,
 };
