@@ -90,6 +90,30 @@ const loginUser = async (email, password) => {
   return userDoc;
 };
 
+// register the user
+const registerUser = async (firstName, lastName, email, password) => {
+  // check if email already exists in DB
+  if (await emailExists(email)) {
+    throw {
+      statusCode: 400,
+      errorMessage: 'The email already exists',
+    };
+  }
+
+  // create user and save to DB
+  return saveUser({
+    firstName,
+    lastName,
+    email,
+    password,
+  }).catch((err) => {
+    throw {
+      statusCode: 400,
+      errorMessage: err,
+    };
+  });
+};
+
 module.exports = {
   emailExists,
   verifyEmailToken,
@@ -98,4 +122,5 @@ module.exports = {
   checkPasswordResetToken,
   setNewPassword,
   loginUser,
+  registerUser,
 };
