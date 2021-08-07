@@ -34,6 +34,16 @@ const loginValidation = async (req, res, next) => {
   schemaValidate(req, next, loginSchema);
 };
 
+const verifyEmailValidation = async (req, res, next) => {
+  // verify email validation schema
+  const verifyEmailSchema = Joi.object({
+    token: Joi.string().required().trim(),
+  });
+
+  // validate req body
+  schemaValidate(req, next, verifyEmailSchema);
+};
+
 const resetPasswordValidation = async (body) => {
   const passwordResetSchema = Joi.object({
     token: Joi.string().required().trim(),
@@ -50,5 +60,6 @@ const resetPasswordValidation = async (body) => {
 module.exports = {
   registrationValidation,
   loginValidation,
+  verifyEmailValidation,
   resetPasswordValidation,
 };
