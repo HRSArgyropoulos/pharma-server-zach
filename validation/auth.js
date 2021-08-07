@@ -6,7 +6,8 @@ const schemaValidate = require('./schemaValidate');
 const passwordRegex =
   /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
-const registrationValidation = async (body) => {
+const registrationValidation = async (req, res, next) => {
+  // registration validation schema
   const registerSchema = Joi.object({
     firstName: Joi.string().min(2).required().trim(),
     lastName: Joi.string().min(2).required().trim(),
@@ -18,7 +19,8 @@ const registrationValidation = async (body) => {
     confirmPassword: Joi.ref('password'),
   }).with('password', 'confirmPassword');
 
-  return registerSchema.validateAsync(body);
+  // validate req body
+  schemaValidate(req, next, registerSchema);
 };
 
 const loginValidation = async (req, res, next) => {

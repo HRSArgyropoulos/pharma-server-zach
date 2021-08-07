@@ -1,60 +1,26 @@
 const express = require('express');
 const router = express.Router();
-const {
-  registrationValidation,
-} = require('../../validation/auth');
-const {
-  emailExists,
-  saveUser,
-} = require('../../database/actions/user');
-const {
-  sendVerificationEmail,
-} = require('../../services/mailer');
+const { registrationValidation } = require('../../validation/auth');
+const { registerUser } = require('../../database/actions/user');
+const { sendVerificationEmail } = require('../../services/mailer');
 
-// Register user
-router.post('/', async (req, res) => {
-  // Validate Body
-  try {
-    // Returns the registration body after validation and convertion
-    var { firstName, lastName, email, password } =
-      await registrationValidation(req.body);
-  } catch (err) {
-    return res
-      .status(400)
-      .send(err.details[0].message);
-  }
+const register = async (req, res, next) => {
+  // get req body from previous middleware (validation/convertion)
+  const { firstName, lastName, email, password } = req.body;
 
-  // Check if email already exists in DB
-  if (await emailExists(email)) {
-    return res
-      .status(400)
-      .send('Email Already Exists');
-  }
-
-  // Create user and save to DB
-  await saveUser({
-    firstName,
-    lastName,
-    email,
-    password,
-  })
-    .then(async (doc) => {
+  // register user in DB
+  registerUser(firstName, lastName, email, password)
+    .then(async (user) => {
       // send verification email
-      await sendVerificationEmail(
-        doc,
-        req.get('origin')
-      );
+      await sendVerificationEmail(user, req.get('origin'));
       return res.status(200).json({
         message:
           'Registration successful, please check your email for verification instructions',
       });
     })
-    .catch((err) =>
-      res.status(400).json({
-        err,
-        message: 'Cannot save user to DB',
-      })
-    );
-});
+    .catch((err) => next(err));
+};
+
+router.post('/', registrationValidation, register);
 
 module.exports = router;
