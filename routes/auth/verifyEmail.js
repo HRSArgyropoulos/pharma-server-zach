@@ -1,30 +1,29 @@
 const router = require('express').Router();
-const {
-  verifyEmailToken,
-} = require('../../database/actions/user');
+const { verifyEmailValidation } = require('../../validation/auth');
+const { verifyEmailToken } = require('../../database/actions/user');
 
-router.post('/', (req, res) => {
-  // get token from request body
+const verifyEmail = async (req, res, next) => {
+  // get token from req body
   const { token } = req.body;
+
   // check if token is valid and update user to verified
   verifyEmailToken(token)
     .then((doc) => {
       // doc has value (found/not null)
       if (doc) {
         return res.status(200).json({
-          message: 'Email verified',
+          message: 'Verification successful, you can now login',
         });
       } else {
-        return res.status(400).json({
-          message: 'Invalid token',
-        });
+        throw {
+          statusCode: 400,
+          errorMessage: 'Verification failed',
+        };
       }
     })
-    .catch((err) => {
-      return res.status(400).json({
-        message: err.message,
-      });
-    });
-});
+    .catch((err) => next(err));
+};
+
+router.post('/', verifyEmailValidation, verifyEmail);
 
 module.exports = router;
