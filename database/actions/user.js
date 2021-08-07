@@ -114,10 +114,34 @@ const registerUser = async (firstName, lastName, email, password) => {
   });
 };
 
+const forgotPasswordCreateToken = async (email) => {
+  // get user with that email
+  const user = await emailExists(email);
+
+  // user does not exist in DB
+  if (!user)
+    throw {
+      statusCode: 400,
+      errorMessage: `Email doesn't exist, please check your email`,
+    };
+
+  // user exists
+  // generate token for user
+  return setPasswordResetToken(user)
+    .then((user) => user)
+    .catch((err) => {
+      throw {
+        statusCode: 400,
+        errorMessage: err,
+      };
+    });
+};
+
 module.exports = {
   emailExists,
   verifyEmailToken,
   saveUser,
+  forgotPasswordCreateToken,
   setPasswordResetToken,
   checkPasswordResetToken,
   setNewPassword,
