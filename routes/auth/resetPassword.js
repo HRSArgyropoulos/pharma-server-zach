@@ -6,15 +6,9 @@ const {
 } = require('../../database/actions/user');
 const { hashPassword } = require('../../helpers/hashPassword');
 
-router.post('/', async (req, res, next) => {
-  // validate body
-  try {
-    // returns the body after validation and convertion
-    var { token, password } = await resetPasswordValidation(req.body);
-  } catch (err) {
-    // return validation error response
-    next({ statusCode: 400, errorMessage: err.details[0].message });
-  }
+const resetPassword = async (req, res, next) => {
+  // get req body after validation/convertion
+  const { token, password } = req.body;
 
   // check if token exists
   checkPasswordResetToken(token)
@@ -36,6 +30,8 @@ router.post('/', async (req, res, next) => {
       });
     })
     .catch((err) => next(err));
-});
+};
+
+router.post('/', resetPasswordValidation, resetPassword);
 
 module.exports = router;

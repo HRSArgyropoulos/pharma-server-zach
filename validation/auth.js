@@ -54,7 +54,8 @@ const forgotPasswordValidation = async (req, res, next) => {
   schemaValidate(req, next, forgotPasswordSchema);
 };
 
-const resetPasswordValidation = async (body) => {
+const resetPasswordValidation = async (req, res, next) => {
+  // password reset schema
   const passwordResetSchema = Joi.object({
     token: Joi.string().required().trim(),
     password: Joi.string()
@@ -64,7 +65,8 @@ const resetPasswordValidation = async (body) => {
     confirmPassword: Joi.ref('password'),
   }).with('password', 'confirmPassword');
 
-  return passwordResetSchema.validateAsync(body);
+  // validate req body
+  schemaValidate(req, next, passwordResetSchema);
 };
 
 module.exports = {
