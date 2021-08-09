@@ -18,7 +18,7 @@ const countTerms = async () => {
 // Return some terms from db for pagination requests
 // (hide _id and __v)
 const paginatedTerms = async (page, size) => {
-  return await TermsSchema.find({}, { _id: 0, __v: 0 })
+  return TermsSchema.find({}, { _id: 0, __v: 0 })
     .skip((page - 1) * size)
     .limit(size)
     .exec();

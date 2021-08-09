@@ -1,5 +1,5 @@
 const Joi = require('joi');
-const schemaValidate = require('./schemaValidate');
+const { bodySchemaValidate } = require('./schemaValidate');
 
 // Minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character
 // by Srinivas & Wiktor Stribiżew
@@ -20,7 +20,7 @@ const registrationValidation = async (req, res, next) => {
   }).with('password', 'confirmPassword');
 
   // validate req body
-  schemaValidate(req, next, registerSchema);
+  bodySchemaValidate(req, next, registerSchema);
 };
 
 const loginValidation = async (req, res, next) => {
@@ -31,7 +31,7 @@ const loginValidation = async (req, res, next) => {
   });
 
   // validate req body
-  schemaValidate(req, next, loginSchema);
+  bodySchemaValidate(req, next, loginSchema);
 };
 
 const verifyEmailValidation = async (req, res, next) => {
@@ -41,7 +41,7 @@ const verifyEmailValidation = async (req, res, next) => {
   });
 
   // validate req body
-  schemaValidate(req, next, verifyEmailSchema);
+  bodySchemaValidate(req, next, verifyEmailSchema);
 };
 
 const forgotPasswordValidation = async (req, res, next) => {
@@ -51,7 +51,7 @@ const forgotPasswordValidation = async (req, res, next) => {
   });
 
   // validate req body
-  schemaValidate(req, next, forgotPasswordSchema);
+  bodySchemaValidate(req, next, forgotPasswordSchema);
 };
 
 const resetPasswordValidation = async (req, res, next) => {
@@ -66,7 +66,7 @@ const resetPasswordValidation = async (req, res, next) => {
   }).with('password', 'confirmPassword');
 
   // validate req body
-  schemaValidate(req, next, passwordResetSchema);
+  bodySchemaValidate(req, next, passwordResetSchema);
 };
 
 module.exports = {
