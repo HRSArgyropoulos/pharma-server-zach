@@ -1,10 +1,11 @@
 const router = require('express').Router();
+const { getTermsValidation } = require('../../validation/terms');
 const {
   paginatedTerms,
   exactCountTerms,
 } = require('../../database/actions/terms');
 
-router.get('/getTerms', async (req, res) => {
+const paginateTerms = async (req, res, next) => {
   // get param keys from request
   const { from, size } = req.query;
 
@@ -12,18 +13,16 @@ router.get('/getTerms', async (req, res) => {
   paginatedTerms(+from, +size)
     .then(async (docs) => {
       const count = await exactCountTerms();
-      return res
-        .status(200)
-        .json({ terms: docs, count });
+      return res.status(200).json({ terms: docs, count });
     })
     .catch((err) => {
-      console.log(err);
-      return res
-        .status(401)
-        .send(
-          '$ref: "#/components/responses/UnauthorizedError"'
-        );
+      next({
+        statusCode: 400,
+        errorMessage: err,
+      });
     });
-});
+};
+
+router.get('/getTerms', getTermsValidation, paginateTerms);
 
 module.exports = router;
