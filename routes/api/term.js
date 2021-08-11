@@ -16,7 +16,7 @@ const updateTermInDb = async (req, res, next) => {
         };
 
       // term was found and successfully updated
-      return res.status(200).json({ key: termDoc.key });
+      return res.status(200).json({ term: termDoc });
     })
     .catch((err) => next(err));
 };
