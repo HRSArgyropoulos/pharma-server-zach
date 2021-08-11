@@ -12,4 +12,15 @@ const updateTerm = async (termId, termData) => {
   });
 };
 
-module.exports = { updateTerm };
+// Delete Term from database
+const deleteTerm = async (termId) => {
+  // find term and delete
+  return TermsSchema.findOneAndDelete(
+    { key: termId },
+    {
+      strict: true,
+    }
+  );
+};
+
+module.exports = { updateTerm, deleteTerm };
