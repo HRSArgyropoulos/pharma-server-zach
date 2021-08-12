@@ -1,8 +1,12 @@
 const router = require('express').Router();
-const { getTermsValidation } = require('../../validation/terms');
+const {
+  getTermsValidation,
+  createTermValidation,
+} = require('../../validation/terms');
 const {
   paginatedTerms,
   exactCountTerms,
+  createNewTerm,
 } = require('../../database/actions/terms');
 
 const paginateTerms = async (req, res, next) => {
@@ -23,6 +27,15 @@ const paginateTerms = async (req, res, next) => {
     });
 };
 
+const createTerm = async (req, res, next) => {
+  const termData = req.body;
+
+  createNewTerm(termData)
+    .then((doc) => res.status(200).json({ term: doc }))
+    .catch((err) => next(err));
+};
+
 router.get('/getTerms', getTermsValidation, paginateTerms);
+router.post('/createTerm', createTermValidation, createTerm);
 
 module.exports = router;
