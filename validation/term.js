@@ -10,7 +10,7 @@ const updateTermValidation = (req, res, next) => {
     has_children: Joi.boolean().required(),
   });
 
-  // validate with req body
+  // validate with req body term
   termBodySchemaValidate(req, next, updateTermSchema);
 };
 
