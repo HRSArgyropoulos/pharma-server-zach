@@ -1,9 +1,6 @@
 {
   "name": "pharma-server-zach",
   "version": "1.0.0",
-  "engines": {
-    "node": "14.16.0"
-  },
   "description": "Node JS Server Side application for Pharma React App",
   "main": "app.js",
   "scripts": {
