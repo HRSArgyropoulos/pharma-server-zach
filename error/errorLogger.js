@@ -2,7 +2,7 @@
 const fs = require('fs');
 const path = require('path');
 const morgan = require('morgan');
-const logsDir = '../logs';
+const logsDir = './logs';
 
 // setup morgan tokens
 morgan.token('status', (req, res) => {
