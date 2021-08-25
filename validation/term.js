@@ -1,4 +1,4 @@
-const Joi = require('Joi');
+const Joi = require('joi');
 const { termBodySchemaValidate } = require('./schemaValidate');
 
 const updateTermValidation = (req, res, next) => {
