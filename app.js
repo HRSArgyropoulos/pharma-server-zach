@@ -2,9 +2,14 @@ const express = require('express');
 const { createDbTerms } = require('./database/actions/createDbTerms');
 const morgan = require('morgan');
 const loggerStream = require('./error/errorLogger'); // Morgan tokens / error logger
+const helmet = require('helmet');
+const compression = require('compression');
 
 // create express application
 const app = express();
+
+app.use(helmet());
+app.use(compression());
 
 // to get request body in POST requests
 app.use(express.json());
