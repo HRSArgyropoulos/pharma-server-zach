@@ -42,7 +42,7 @@ if (!fs.existsSync(logsDir)) {
   fs.mkdirSync(logsDir);
 }
 const loggerStream = fs.createWriteStream(
-  path.join(`${__dirname}`, '.', 'logs', 'error.log'),
+  path.join(`${__dirname}`, 'logs', 'error.log'),
   {
     flags: 'a',
   }
