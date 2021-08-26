@@ -1,7 +1,9 @@
 const express = require('express');
 const { createDbTerms } = require('./database/actions/createDbTerms');
 const morgan = require('morgan');
-const loggerStream = require('./error/errorLogger'); // Morgan tokens / error logger
+const fs = require('fs');
+const path = require('path');
+const logsDir = './logs';
 const helmet = require('helmet');
 const compression = require('compression');
 
@@ -23,6 +25,24 @@ require('./database/connection');
 
 // populate db with terms (if empty)
 createDbTerms();
+
+// setup morgan tokens
+morgan.token('status', (req, res) => {
+  return res.error.statusCode;
+});
+morgan.token('errorMessage', (req, res) => {
+  return res.error.errorMessage;
+});
+
+// create write stream for logger
+//create dir if doesn't exist
+if (!fs.existsSync(logsDir)) fs.mkdirSync(logsDir);
+const loggerStream = fs.createWriteStream(
+  path.join(`${__dirname}`, '.', 'logs', 'error.log'),
+  {
+    flags: 'a',
+  }
+);
 
 // error logging - Morgan
 app.use(
