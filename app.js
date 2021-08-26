@@ -36,7 +36,11 @@ morgan.token('errorMessage', (req, res) => {
 
 // create write stream for logger
 //create dir if doesn't exist
-if (!fs.existsSync(logsDir)) fs.mkdirSync(logsDir);
+console.log(logsDir);
+if (!fs.existsSync(logsDir)) {
+  console.log('does not exist');
+  fs.mkdirSync(logsDir);
+}
 const loggerStream = fs.createWriteStream(
   path.join(`${__dirname}`, '.', 'logs', 'error.log'),
   {
