@@ -54,7 +54,7 @@ app.use((err, req, res, next) => {
 });
 
 // listen for connections on this host & port
-app.listen(process.env.PORT, process.env.HOST, () => {
+app.listen(process.env.PORT || 3000, process.env.HOST, () => {
   console.log(
     `Pharma application listening on http://${process.env.HOST}:${process.env.PORT}`
   );
