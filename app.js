@@ -6,6 +6,7 @@ const path = require('path');
 const logsDir = './logs';
 const helmet = require('helmet');
 const compression = require('compression');
+const mongooseMorgan = require('mongoose-morgan'); // log errors in db
 
 // create express application
 const app = express();
@@ -44,7 +45,7 @@ const loggerStream = fs.createWriteStream(
   }
 );
 
-// error logging - Morgan
+// error logging - Morgan -> FILE
 app.use(
   morgan(
     ':date - :method - :url - status: :status - error_message: :errorMessage - :res[content-length] - :response-time ms',
@@ -54,6 +55,25 @@ app.use(
         return res.statusCode < 400;
       },
     }
+  )
+);
+
+// error logging - Morgan -> DB
+const loggerCollection = 'logs';
+
+// error logging - Morgan
+app.use(
+  mongooseMorgan(
+    {
+      collection: loggerCollection,
+      connectionString: process.env.PHARMA_DB_URI,
+    },
+    {
+      skip: (req, res) => {
+        return res.statusCode < 400;
+      },
+    },
+    ':date - :method - :url - status: :status - error_message: :errorMessage - :res[content-length] - :response-time ms'
   )
 );
 
