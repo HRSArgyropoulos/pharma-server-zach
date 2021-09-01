@@ -29,10 +29,10 @@ createDbTerms();
 
 // setup morgan tokens
 morgan.token('status', (req, res) => {
-  return res.error.statusCode;
+  return res?.error?.statusCode || res.statusCode;
 });
 morgan.token('errorMessage', (req, res) => {
-  return res.error.errorMessage;
+  return res?.error?.errorMessage || res.statusMessage;
 });
 
 // create write stream for logger
