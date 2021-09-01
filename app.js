@@ -49,7 +49,6 @@ app.use(
   morgan(
     ':date - :method - :url - status: :status - error_message: :errorMessage - :res[content-length] - :response-time ms',
     {
-      stream: loggerStream,
       skip: (req, res) => {
         return res.statusCode < 400;
       },
