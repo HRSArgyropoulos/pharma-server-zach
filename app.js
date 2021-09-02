@@ -27,12 +27,20 @@ require('./database/connection');
 // populate db with terms (if empty)
 createDbTerms();
 
-// setup morgan tokens
+/* // setup morgan tokens
 morgan.token('status', (req, res) => {
   return res?.error?.statusCode || res.statusCode; // OR res?.error?.statusCode ||= res.statusCode; return res.error.statusCode; (not yet supported in node v14)
 });
 morgan.token('errorMessage', (req, res) => {
   return res?.error?.errorMessage || res.statusMessage; // OR res?.error?.errorMessage ||= res.statusMessage; return res.error.errorMessage; (not yet supported in node v14)
+}); */
+
+// setup morgan tokens
+morgan.token('status', (req, res) => {
+  return res.error.statusCode;
+});
+morgan.token('errorMessage', (req, res) => {
+  return res.error.errorMessage;
 });
 
 // create write stream for logger
