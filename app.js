@@ -1,9 +1,9 @@
 const express = require('express');
 const { createDbTerms } = require('./database/actions/createDbTerms');
 const morgan = require('morgan');
-const fs = require('fs');
+/* const fs = require('fs');
 const path = require('path');
-const logsDir = './logs';
+const logsDir = './logs'; */
 const helmet = require('helmet');
 const compression = require('compression');
 const mongooseMorgan = require('mongoose-morgan'); // log errors in db
@@ -35,7 +35,7 @@ morgan.token('errorMessage', (req, res) => {
   return res?.error?.errorMessage || res.statusMessage; // OR res?.error?.errorMessage ||= res.statusMessage; return res.error.errorMessage; (not yet supported in node v14)
 });
 
-// create write stream for logger
+/* // create write stream for logger
 //create dir if doesn't exist
 if (!fs.existsSync(logsDir)) fs.mkdirSync(logsDir);
 const loggerStream = fs.createWriteStream(
@@ -43,9 +43,9 @@ const loggerStream = fs.createWriteStream(
   {
     flags: 'a',
   }
-);
+); */
 
-// error logging - Morgan -> FILE
+/* // error logging - Morgan -> FILE
 app.use(
   morgan(
     ':date - :method - :url - status: :status - error_message: :errorMessage - :res[content-length] - :response-time ms',
@@ -56,7 +56,7 @@ app.use(
       },
     }
   )
-);
+); */
 
 // error logging - Morgan -> DB
 const loggerCollection = 'logs';
