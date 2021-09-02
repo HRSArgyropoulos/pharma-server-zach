@@ -29,10 +29,10 @@ createDbTerms();
 
 // setup morgan tokens
 morgan.token('status', (req, res) => {
-  return res.error.statusCode;
+  return res?.error?.statusCode || res.statusCode; // OR res?.error?.statusCode ||= res.statusCode; return res.error.statusCode; (not yet supported in node v14)
 });
 morgan.token('errorMessage', (req, res) => {
-  return res.error.errorMessage;
+  return res?.error?.errorMessage || res.statusMessage; // OR res?.error?.errorMessage ||= res.statusMessage; return res.error.errorMessage; (not yet supported in node v14)
 });
 
 // create write stream for logger
