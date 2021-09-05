@@ -1,9 +1,16 @@
-# pharma-server-zach
+# Pharma-Server-Side
 
-> ### Pharma server-side NodeJS Application to provide data and functionality to a pharma react front-end application. 
+> ### Pharma server-side NodeJS Application to provide data and functionality to already existed pharma react front-end application. 
 
-Heroku App Link: https://pharma-server-side-zach.herokuapp.com/
-# Getting started
+> Please note that only the server side code was writted by me for this project. The client side code was provided by @jkrgS.
+
+## Preview
+
+Heroku Client Link : https://pharma-client-react.herokuapp.com/
+
+Heroku Server Link: https://pharma-server-side-zach.herokuapp.com/
+
+## Getting started
 
 To get the Node server running locally:
 
