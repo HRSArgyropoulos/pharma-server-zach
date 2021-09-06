@@ -17,7 +17,6 @@ const UserSchema = new mongoose.Schema({
 // (p.s. do not use arrow function in cb as it wont correctly bind this)
 UserSchema.pre('save', function (next) {
   const user = this;
-  console.log(user);
 
   //Hash the password
   // generate salt
@@ -35,23 +34,18 @@ UserSchema.pre('save', function (next) {
   });
 
   // Generate email verification token
-  user.verificationToken = crypto
-    .randomBytes(8)
-    .toString('hex');
+  user.verificationToken = crypto.randomBytes(8).toString('hex');
 });
 
 // Get 'unhashed' password and check it with this instance's password
-UserSchema.methods.checkPassword = async function (
-  pass
-) {
+UserSchema.methods.checkPassword = async function (pass) {
   return await bcrypt.compare(pass, this.password);
 };
 
 // Generate token for password reset
-UserSchema.methods.generatePasswordResetToken =
-  function () {
-    return crypto.randomBytes(16).toString('hex');
-  };
+UserSchema.methods.generatePasswordResetToken = function () {
+  return crypto.randomBytes(16).toString('hex');
+};
 
 // Export Models
 // User Model
